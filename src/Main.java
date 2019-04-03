@@ -16,27 +16,14 @@ import org.json.JSONObject;
 import static javax.swing.UIManager.getInt;
 
 public class Main {
-    // **********************************************
-    // *** Update or verify the following values. ***
-    // **********************************************
 
-    // Replace <Subscription Key> with your valid subscription key.
     private static final String subscriptionKey = "567c11070cbf442b87327b54591fa99a";
 
-    // You must use the same Azure region in your REST API method as you used to
-    // get your subscription keys. For example, if you got your subscription keys
-    // from the West US region, replace "westcentralus" in the URL
-    // below with "westus".
-    //
-    // Free trial subscription keys are generated in the "westus" region.
-    // If you use a free trial subscription key, you shouldn't need to change
-    // this region.
     private static final String uriBase =
             "https://eastus.api.cognitive.microsoft.com/vision/v2.0/analyze";
 
     private static final String imageToAnalyze =
-            "https://upload.wikimedia.org/wikipedia/commons/" +
-                    "1/12/Broadway_and_Times_Square_by_night.jpg";
+            "https://upload.wikimedia.org/wikipedia/commons/1/12/Broadway_and_Times_Square_by_night.jpg";
 
     public static void main(String[] args) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
@@ -67,7 +54,7 @@ public class Main {
             HttpEntity entity = response.getEntity();
 
             if (entity != null) {
-                // Format and display the JSON response.
+                // Format the JSON response.
                 String jsonString = EntityUtils.toString(entity);
                 JSONObject json = new JSONObject(jsonString);
 
