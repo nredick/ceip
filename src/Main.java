@@ -10,10 +10,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import static javax.swing.UIManager.getInt;
 
 public class Main {
 
@@ -48,7 +45,6 @@ public class Main {
                     new StringEntity("{\"url\":\"" + imageToAnalyze + "\"}");
             request.setEntity(requestEntity);
 
-
             // Call the REST API method and get the response entity.
             HttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
@@ -57,6 +53,9 @@ public class Main {
                 // Format the JSON response.
                 String jsonString = EntityUtils.toString(entity);
                 JSONObject json = new JSONObject(jsonString);
+
+                //print json response: (as taken from quickstart sample)
+                //System.out.println(json.toString(2));
 
                 // parsing json code for readability
 
@@ -81,10 +80,6 @@ public class Main {
                 for(int i = 0; i < 10; i++) {
                     System.out.print(json.getJSONObject("description").getJSONArray("tags").get(i) + "\n");
                 }
-
-
-                //print json response: (as taken from quickstart sample)
-                //System.out.println(json.toString(2));
             }
         } catch (Exception e) {
             // Display error message.
