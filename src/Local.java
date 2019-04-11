@@ -15,8 +15,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
-import javax.swing.*;
-
 public class Local {
     public static final String subscriptionKey = "567c11070cbf442b87327b54591fa99a";
 
@@ -29,7 +27,6 @@ public class Local {
     }
 
     public static void main(String[] args) {
-        //String argument = JOptionPane.showInputDialog("Input image folder location.");
         try {
             File folder = new File(args[0]);
             File[] listings = folder.listFiles();
