@@ -22,13 +22,13 @@ public class Local {
 
     public static final String uriBase =
             "https://eastus.api.cognitive.microsoft.com/vision/v2.0/analyze";
-    String print = "";
+    static String print = "";
 
     public String getResults(){
         return print;
     }
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         //String argument = JOptionPane.showInputDialog("Input image folder location.");
         try {
             File folder = new File(args[0]);
