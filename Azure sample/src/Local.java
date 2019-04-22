@@ -58,7 +58,7 @@ public class Local {
                         // Format and display the JSON response.
                         String jsonString = EntityUtils.toString(entity);
                         JSONObject json = new JSONObject(jsonString);
-                        //System.out.println(json.toString(2));
+                        System.out.println(json.toString(2));
 
                         // parsing json code for readability
 

@@ -12,7 +12,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
-public class Main {
+public class Remote {
 
     private static final String subscriptionKey = "567c11070cbf442b87327b54591fa99a";
 
