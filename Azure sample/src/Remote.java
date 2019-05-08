@@ -14,7 +14,7 @@ import org.json.JSONObject;
 
 public class Remote {
 
-    private static final String subscriptionKey = "567c11070cbf442b87327b54591fa99a";
+    private static final String subscriptionKey = "9f7acebb2f2548e280fce69f75cf8151";
 
     private static final String uriBase =
             "https://eastus.api.cognitive.microsoft.com/vision/v2.0/analyze";
