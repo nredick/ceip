@@ -16,15 +16,10 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 public class Local {
-    public static final String subscriptionKey = "567c11070cbf442b87327b54591fa99a";
+    public static final String subscriptionKey = "9f7acebb2f2548e280fce69f75cf8151";
 
     public static final String uriBase =
             "https://eastus.api.cognitive.microsoft.com/vision/v2.0/analyze";
-    static String print = "";
-
-    public String getResults(){
-        return print;
-    }
 
     public static void main(String[] args) {
         try {
@@ -34,7 +29,7 @@ public class Local {
             int count = 1;
             if (listings != null) {
                 for (File f : listings) {
-
+                    if(!(f.toString().contains(".DS_Store"))){
                     //DefaultHttpClient client = new HttpClient(); this was deprecated
                     HttpClient httpclient = HttpClientBuilder.create().build();
 
@@ -58,53 +53,43 @@ public class Local {
                         // Format and display the JSON response.
                         String jsonString = EntityUtils.toString(entity);
                         JSONObject json = new JSONObject(jsonString);
-                        System.out.println(json.toString(2));
+                        //System.out.println(json.toString(2));
 
                         // parsing json code for readability
 
                         System.out.println("\nImage #" + count + ": " + f);
-                        print+="\nImage #" + count + ": " + f;
                         count++;
 
                         if (json.getJSONObject("description").getJSONArray("captions").length() > 0) {
                             String des = json.getJSONObject("description").getJSONArray("captions").getJSONObject(0).getString("text");
                             System.out.println("Description: " + des);
-                            print+="\nDescription: " + des;
 
                             NumberFormat formatter = new DecimalFormat("#0.0000");
                             double confidence = json.getJSONObject("description").getJSONArray("captions").getJSONObject(0).getDouble("confidence");
                             System.out.println("Confidence: " + formatter.format(confidence));
-                            print+="\nConfidence: " + formatter.format(confidence);
                         }
 
                         String format = json.getJSONObject("metadata").getString("format");
                         System.out.println("File type: " + format);
-                        print+="\nFile type: " + format;
 
                         System.out.print("Dominant Color(s):");
-                        print+="\nDominant Color(s):\n";
                         for (Object j : json.getJSONObject("color").getJSONArray("dominantColors")) {
                             System.out.print(j + "\n");
-                            print+=j+"\n";
                         }
                         if (json.getJSONObject("description").getJSONArray("tags").length() >= 10) {
                             System.out.print("Tags:\n");
-                            print+="Tags:\n";
                             for (int i = 0; i < 10; i++) {
                                 System.out.print(json.getJSONObject("description").getJSONArray("tags").get(i) + "\n");
-                                print+=json.getJSONObject("description").getJSONArray("tags").get(i) + "\n";
                             }
                         } else {
                             System.out.print("Tags:\n");
-                            print+="Tags:\n";
                             for (Object o : json.getJSONObject("description").getJSONArray("tags")) {
                                 System.out.print(o + "\n");
-                                print+=o + "\n";
+
                             }
                         }
-                        //JOptionPane.showMessageDialog(frame, print);
                     }
-                }
+                }}
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
