@@ -71,9 +71,11 @@ public class Remote {
                 double confidence = json.getJSONObject("description").getJSONArray("captions").getJSONObject(0).getDouble("confidence");
                 System.out.println("Confidence: " + formatter.format(confidence));
 
-                System.out.print("Dominant Color(s):\n");
-                for(Object j : json.getJSONObject("color").getJSONArray("dominantColors")){
-                    System.out.print(j + "\n");
+                if(json.getJSONObject("color").getJSONArray("dominantColors").length()>0) {
+                    System.out.print("Dominant Color(s):\n");
+                    for (Object j : json.getJSONObject("color").getJSONArray("dominantColors")) {
+                        System.out.print(j + "\n");
+                    }
                 }
 
                 System.out.print("Tags:\n");
