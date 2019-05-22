@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.io.File;
 import java.net.URI;
 import java.text.DecimalFormat;
@@ -30,66 +29,72 @@ public class Local {
             if (listings != null) {
                 for (File f : listings) {
                     if(!(f.toString().contains(".DS_Store"))){
-                    //DefaultHttpClient client = new HttpClient(); this was deprecated
-                    HttpClient httpclient = HttpClientBuilder.create().build();
+                        //DefaultHttpClient client = new HttpClient(); this was deprecated
+                        HttpClient httpclient = HttpClientBuilder.create().build();
 
-                    URIBuilder builder = new URIBuilder(uriBase);
-                    //request params
-                    builder.setParameter("visualFeatures", "Description,Color");
-                    builder.setParameter("language", "en");
+                        URIBuilder builder = new URIBuilder(uriBase);
+                        //request params
+                        builder.setParameter("visualFeatures", "Description,Color");
+                        builder.setParameter("language", "en");
 
-                    URI uri = builder.build();
-                    HttpPost request = new HttpPost(uri);
+                        URI uri = builder.build();
+                        HttpPost request = new HttpPost(uri);
 
-                    request.setHeader("Content-Type", "application/octet-stream"); // value: "application/json" gave a "code:" ["BadArgument"] response
-                    request.setHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+                        request.setHeader("Content-Type", "application/octet-stream"); // value: "application/json" gave a "code:" ["BadArgument"] response
+                        request.setHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
 
-                    FileEntity reqEntityF = new FileEntity(f, ContentType.APPLICATION_OCTET_STREAM);
-                    request.setEntity(reqEntityF);
-                    HttpResponse response = httpclient.execute(request);
-                    HttpEntity entity = response.getEntity();
+                        FileEntity reqEntityF = new FileEntity(f, ContentType.APPLICATION_OCTET_STREAM);
+                        request.setEntity(reqEntityF);
+                        HttpResponse response = httpclient.execute(request);
+                        HttpEntity entity = response.getEntity();
 
-                    if (entity != null) {
-                        // Format and display the JSON response.
-                        String jsonString = EntityUtils.toString(entity);
-                        JSONObject json = new JSONObject(jsonString);
-                        //System.out.println(json.toString(2));
+                        if (entity != null) {
+                            // Format and display the JSON response.
+                            String jsonString = EntityUtils.toString(entity);
+                            JSONObject json = new JSONObject(jsonString);
+                            //System.out.println(json.toString(2));
 
-                        // parsing json code for readability
+                            // parsing json code for readability
 
-                        System.out.println("\nImage #" + count + ": " + f);
-                        count++;
+                            System.out.println("\nImage #" + count + ": " + f);
+                            count++;
 
-                        if (json.getJSONObject("description").getJSONArray("captions").length() > 0) {
-                            String des = json.getJSONObject("description").getJSONArray("captions").getJSONObject(0).getString("text");
-                            System.out.println("Description: " + des);
+                            if (json.getJSONObject("description").getJSONArray("captions").length() > 0) {
+                                String des = json.getJSONObject("description").getJSONArray("captions").getJSONObject(0).getString("text");
+                                System.out.println("Description: " + des);
 
-                            NumberFormat formatter = new DecimalFormat("#0.0000");
-                            double confidence = json.getJSONObject("description").getJSONArray("captions").getJSONObject(0).getDouble("confidence");
-                            System.out.println("Confidence: " + formatter.format(confidence));
-                        }
-
-                        String format = json.getJSONObject("metadata").getString("format");
-                        System.out.println("File type: " + format);
-
-                        System.out.print("Dominant Color(s):");
-                        for (Object j : json.getJSONObject("color").getJSONArray("dominantColors")) {
-                            System.out.print(j + "\n");
-                        }
-                        if (json.getJSONObject("description").getJSONArray("tags").length() >= 10) {
-                            System.out.print("Tags:\n");
-                            for (int i = 0; i < 10; i++) {
-                                System.out.print(json.getJSONObject("description").getJSONArray("tags").get(i) + "\n");
+                                NumberFormat formatter = new DecimalFormat("#0.0000");
+                                double confidence = json.getJSONObject("description").getJSONArray("captions").getJSONObject(0).getDouble("confidence");
+                                System.out.println("Confidence: " + formatter.format(confidence));
                             }
-                        } else {
-                            System.out.print("Tags:\n");
-                            for (Object o : json.getJSONObject("description").getJSONArray("tags")) {
-                                System.out.print(o + "\n");
 
+                            if(json.getJSONObject("metadata").getString("format")!=null || json.getJSONObject("metadata").getString("format").equals("")) {
+                                String format = json.getJSONObject("metadata").getString("format");
+                                System.out.println("File type: " + format);
+                            }
+
+                            if(json.getJSONObject("color").getJSONArray("dominantColors").length()>0){
+                                System.out.print("Dominant Color(s):\n");
+                                for (Object j : json.getJSONObject("color").getJSONArray("dominantColors")) {
+                                    System.out.print(j + "\n");
+                            }
+
+                            }
+                            if (json.getJSONObject("description").getJSONArray("tags").length() >= 10) {
+                                System.out.print("Tags:\n");
+                                for (int i = 0; i < 10; i++) {
+                                    System.out.print(json.getJSONObject("description").getJSONArray("tags").get(i) + "\n");
+                                }
+                            } else {
+                                System.out.print("Tags:\n");
+                                for (Object o : json.getJSONObject("description").getJSONArray("tags")) {
+                                    System.out.print(o + "\n");
+
+                                }
                             }
                         }
                     }
-                }}
+                }
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
