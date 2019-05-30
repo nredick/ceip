@@ -55,7 +55,7 @@ public class Remote {
                 JSONObject json = new JSONObject(jsonString);
 
                 //print json response: (as taken from quickstart sample)
-                //System.out.println(json.toString(2));
+                System.out.println(json.toString(2));
 
                 // parsing json code for readability
 
