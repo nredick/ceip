@@ -7,7 +7,7 @@
 	$remote = "https://redbuddevelopment.com/wp-content/uploads/2016/03/DSC_0019.jpg";
 	$local = base64_encode(file_get_contents('images-1.jpeg'));
 	//azure computer vision subscription key
-$ocpApimSubscriptionKey = '9f7acebb2f2548e280fce69f75cf8151';
+$ocpApimSubscriptionKey = '(azure subscription key)';
 	//initialize a curl command sequence
 $ch = curl_init();
 	//set curl POST options
